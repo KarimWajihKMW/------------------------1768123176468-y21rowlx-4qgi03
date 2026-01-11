@@ -1,12 +1,35 @@
 console.log('Akwadra Super Builder Initialized');
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Theme Toggle Logic ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    
+    // Check local storage or system preference
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+
+    if(themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            // Toggle class
+            document.documentElement.classList.toggle('dark');
+            
+            // Save preference
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+    }
+
     // --- Existing Functionality Preservation ---
     const card = document.querySelector('.card');
     if(card) {
         card.addEventListener('click', () => {
             console.log('تم النقر على البطاقة!');
-            // alert('أهلاً بك في عالم البناء بدون كود!'); // Commented out to improve flow, or keep if strictly needed. Let's redirect instead.
             openApp();
         });
     }
@@ -55,16 +78,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Remove active class from all
             vehicleOptions.forEach(v => {
                 v.classList.remove('active');
-                v.classList.remove('border-indigo-600');
-                v.classList.remove('bg-indigo-50');
+                // Reset Tailwind classes for light mode
+                v.classList.remove('border-indigo-600', 'bg-indigo-50');
                 v.classList.add('border-gray-100');
+                // Reset Tailwind classes for dark mode
+                v.classList.remove('dark:border-indigo-500', 'dark:bg-indigo-900/40');
+                v.classList.add('dark:border-slate-700', 'dark:bg-slate-700/30');
             });
 
             // Add active class to clicked
             option.classList.add('active');
-            option.classList.remove('border-gray-100');
-            option.classList.add('border-indigo-600');
-            option.classList.add('bg-indigo-50');
+            // Set active Tailwind classes
+            option.classList.remove('border-gray-100', 'dark:border-slate-700', 'dark:bg-slate-700/30');
+            option.classList.add('border-indigo-600', 'bg-indigo-50', 'dark:border-indigo-500', 'dark:bg-indigo-900/40');
 
             // Update button text with price
             const price = option.getAttribute('data-price');
