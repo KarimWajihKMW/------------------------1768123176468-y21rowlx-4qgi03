@@ -15,10 +15,23 @@ body {
     background-size: 50px 50px;
 }
 
+/* DARK MODE MAP */
+.dark .map-pattern {
+    background-color: #111827; /* gray-900 */
+    background-image: 
+        linear-gradient(#1f2937 2px, transparent 2px), /* gray-800 */
+        linear-gradient(90deg, #1f2937 2px, transparent 2px);
+}
+
 .road {
     position: absolute;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.dark .road {
+    background-color: #374151; /* gray-700 */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .road-1 {
@@ -99,6 +112,12 @@ body {
 .vehicle-option.active {
     border-color: #4f46e5;
     background-color: #eef2ff;
+}
+
+/* Dark Mode Active State Adjustment handled in Tailwind classes, but backup here if needed */
+.dark .vehicle-option.active {
+    background-color: rgba(49, 46, 129, 0.4);
+    border-color: #6366f1;
 }
 
 /* Utilities */
